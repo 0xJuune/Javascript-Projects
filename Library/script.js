@@ -1,5 +1,6 @@
 let myLibrary = [];
 const addBook = document.querySelector('.addBook')
+const body = document.body
 const cardList = document.querySelector('.main')
 // const createCard = document.createElement('div');
 // const createTitle = document.createElement('div');
@@ -46,6 +47,21 @@ function promptBook() {
   myLibrary.push(addBookToLibrary());
   displayBooks();
 }
+
+function modal() {
+  // const createModal = document.createElement('div');
+  // const createTitle = document.createElement('div');
+  // const title = document.createTextNode("Add a Book");
+  // createModal.classList.add('card');
+  // createModal.classList.add('cardRemove');
+  // createTitle.classList.add('title');
+  // createTitle.appendChild(title);
+  // createModal.appendChild(createTitle);
+  // createModal.
+  // body.appendChild(createModal);
+}
+
+
 
 addBook.addEventListener('click', promptBook)
 
