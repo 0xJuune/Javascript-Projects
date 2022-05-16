@@ -1,20 +1,16 @@
 let myLibrary = [];
-const addBook = document.querySelector('.addBook')
-const body = document.body
-const cardList = document.querySelector('.main')
-// const createCard = document.createElement('div');
-// const createTitle = document.createElement('div');
-// const current = document.querySelector('.cardRemove');
+const addBook = document.querySelector('.addBook');
+const submit = document.querySelector("#submitButton");
+const cardList = document.querySelector('.main');
+const exit = document.querySelector('.exit');
 
 
-function book(title, author, pageCount, read) {
+
+function book(title, author, pagecount, read) {
   this.title = title
   this.author = author
-  this.pageCount = pageCount
+  this.pagecount = pagecount
   this.read = read
-    // this.report = function() {     <-- fix this w/ prototype
-    //   console.log(title, author)
-    // }
 }
   
 function addBookToLibrary() {
@@ -27,20 +23,117 @@ function addBookToLibrary() {
 
 function displayBooks() {
   const current = document.querySelectorAll('.cardRemove');
+  let i = 0
   current?.forEach(a => {
     a.remove();
   });
   myLibrary.forEach((a) => {
+    function colorBorder(b) {
+      switch(b) {
+        case 'Finished':
+        createCard.style.borderLeft = 'solid 8px hsl(120deg 40% 55%)';
+        break;
+        case 'Reading':
+        createCard.style.borderLeft = 'solid 8px hsl(50 100% 70%)';
+        break;
+        case 'Untouched':
+        createCard.style.borderLeft = 'solid 8px hsl(15, 100%, 53%)';
+        break;
+    }
+    }
+    
+    // let readStatus = a.read
+    const n = i
     const createCard = document.createElement('div');
     const createTitle = document.createElement('div');
+    const createAuthor = document.createElement('div');
+    const createPagecount = document.createElement('div');
+    const createRead = document.createElement('div');
+    const createSpan = document.createElement('span');
+    const createSpan2 = document.createElement('span');
+    const createSpan3 = document.createElement('span');
+    const createButton = document.createElement('button');
+
     const title = document.createTextNode(a.title);
+    const author = document.createTextNode(a.author);
+    const pagecount = document.createTextNode(a.pagecount);
+    const read = document.createTextNode(a.read);
+    // const read = document.createTextNode(readStatus);
+    const button = document.createTextNode('Swap Status')
+
     createCard.classList.add('card');
     createCard.classList.add('cardRemove');
     createTitle.classList.add('title');
+
+    createSpan.innerText = 'Author: ';
+    createSpan2.innerText = 'Page Count: ';
+    createSpan3.innerText = 'Read Status: ';
+
     createTitle.appendChild(title);
+
+    createAuthor.appendChild(createSpan);
+    createAuthor.appendChild(author);
+    
+    createPagecount.appendChild(createSpan2);
+    createPagecount.appendChild(pagecount);
+    
+    createRead.appendChild(createSpan3);
+    createRead.appendChild(read);
+    
+    createRead.setAttribute('id', i);
+
+    createButton.appendChild(button);
+
     createCard.appendChild(createTitle);
+    createCard.appendChild(createAuthor);
+    createCard.appendChild(createPagecount);
+    createCard.appendChild(createRead);
+    createCard.appendChild(createButton);
+    
+
+    createButton.addEventListener('click', function() {
+      a.read = swapReadStatus(a.read, n);
+      colorBorder(a.read)
+    })
+
+    colorBorder(a.read)
     cardList.appendChild(createCard);
+    console.log(i)
+    i = i + 1;
+    console.log(i)
   })
+}
+
+
+
+// function colorBorder(a) {
+//   switch(a) {
+//     case 'Finished':
+//     createCard.style.borderLeft = 'solid 8px hsl(120deg 40% 55%)';
+//     break;
+//     case 'Reading':
+//     createCard.style.borderLeft = 'solid 8px hsl(50 100% 70%)';
+//     break;
+//     case 'Untouched':
+//     createCard.style.borderLeft = 'solid 8px hsl(15, 100%, 53%)';
+//     break;
+// }}
+
+function swapReadStatus(a, b) {
+  switch (a) {
+    case 'Finished':
+      a = 'Untouched';
+      document.getElementById(b).innerHTML = `<span>Read Status: </span>${a}`;
+      return a;
+    case 'Reading':
+      a = 'Finished';
+      document.getElementById(b).innerHTML = `<span>Read Status: </span>${a}`;
+      return a;
+    case 'Untouched':
+      a = 'Reading';
+      document.getElementById(b).innerHTML = `<span>Read Status: </span>${a}`;
+      return a;
+  }
 }
 
 function promptBook() {
@@ -48,23 +141,35 @@ function promptBook() {
   displayBooks();
 }
 
-function modal() {
-  // const createModal = document.createElement('div');
-  // const createTitle = document.createElement('div');
-  // const title = document.createTextNode("Add a Book");
-  // createModal.classList.add('card');
-  // createModal.classList.add('cardRemove');
-  // createTitle.classList.add('title');
-  // createTitle.appendChild(title);
-  // createModal.appendChild(createTitle);
-  // createModal.
-  // body.appendChild(createModal);
+function showModal() {
+  const showModal = document.querySelector('.transparent');
+  showModal.style.visibility = "visible";
 }
 
+function hideModal() {
+  const showModal = document.querySelector('.transparent');
+  showModal.style.visibility = "hidden";
+}
 
+function pushFormToArray() {
+  const title = document.getElementById('title')
+  const author = document.getElementById('author')
+  const pagecount = document.getElementById('pagecount')
+  const bookForm = document.forms.bookForm;
+  const read = bookForm.querySelector('input[name=read]:checked');
+  let a = title.value;
+  let b = author.value;
+  let c = pagecount.value;
+  let d = read.value;
+  myLibrary.push(new book(a, b, c, d));
+  bookForm.reset();
+  hideModal()
+  displayBooks();
+}
 
-addBook.addEventListener('click', promptBook)
-
+addBook.addEventListener('click', showModal)
+submit.addEventListener('click', pushFormToArray)
+exit.addEventListener('click', hideModal)
 
 
 // myLibrary.push(addBookToLibrary())
