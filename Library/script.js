@@ -24,12 +24,12 @@ function addBookToLibrary() {
 function displayBooks() {
   const current = document.querySelectorAll('.cardRemove');
   let i = 0
-  current?.forEach(a => {
-    a.remove();
+  current?.forEach(card => {
+    card.remove();
   });
-  myLibrary.forEach((a) => {
-    function colorBorder(b) {
-      switch(b) {
+  myLibrary.forEach((bookArray) => {
+    function colorBorder(readStatus) {
+      switch(readStatus) {
         case 'Finished':
         createCard.style.borderLeft = 'solid 8px hsl(120deg 40% 55%)';
         break;
@@ -42,8 +42,7 @@ function displayBooks() {
     }
     }
     
-    // let readStatus = a.read
-    const n = i
+    const n = i 
     const createCard = document.createElement('div');
     const createTitle = document.createElement('div');
     const createAuthor = document.createElement('div');
@@ -54,11 +53,10 @@ function displayBooks() {
     const createSpan3 = document.createElement('span');
     const createButton = document.createElement('button');
 
-    const title = document.createTextNode(a.title);
-    const author = document.createTextNode(a.author);
-    const pagecount = document.createTextNode(a.pagecount);
-    const read = document.createTextNode(a.read);
-    // const read = document.createTextNode(readStatus);
+    const title = document.createTextNode(bookArray.title);
+    const author = document.createTextNode(bookArray.author);
+    const pagecount = document.createTextNode(bookArray.pagecount);
+    const read = document.createTextNode(bookArray.read);
     const button = document.createTextNode('Swap Status')
 
     createCard.classList.add('card');
@@ -92,15 +90,13 @@ function displayBooks() {
     
 
     createButton.addEventListener('click', function() {
-      a.read = swapReadStatus(a.read, n);
-      colorBorder(a.read)
+      bookArray.read = swapReadStatus(bookArray.read, n);
+      colorBorder(bookArray.read)
     })
 
-    colorBorder(a.read)
+    colorBorder(bookArray.read)
     cardList.appendChild(createCard);
-    console.log(i)
-    i = i + 1;
-    console.log(i)
+    i =+ 1;
   })
 }
 
